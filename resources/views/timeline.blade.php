@@ -18,9 +18,20 @@
         </form>
             
         <div class="tweet-wrapper">
+            @foreach($tweets as $tweet)
             <div class="tweet-box">
-
+                <a href="{{ route('show',[$tweet->user->id]) }}"><img src="{{ asset('storage/images/'. $tweet->user->avatar) }}" alt=""></a>
+                <div>{{ $tweet->tweet }}</div>
+                <div class="destroy-btn">
+                    @if($tweet->user_id == Auth::user()->id)
+                    <form action="{{ route('destroy',[$tweet->id]) }}" method="post">
+                        @csrf
+                        <input type="submit" value="削除">
+                    </form>
+                    @endif
+                </div>
             </div>
+            @endforeach
         </div>
     </div>
 </body>

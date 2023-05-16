@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Tweet;
 
 class TweetController extends Controller
@@ -10,7 +11,8 @@ class TweetController extends Controller
     //
     public function showTimelinePage()
     {
-        return view('timeline');
+        $tweets = Tweet::latest()->get();
+        return view('timeline', ['tweets' => $tweets]);
     }
 
     public function postTweet(Request $request)
@@ -20,10 +22,18 @@ class TweetController extends Controller
         ]);
 
         Tweet::create([
-            'user_id' => 1,
+            'user_id' => Auth::user()->id,
             'tweet' => $request->tweet,
         ]);
 
         return back();
+    }
+
+    public function destroy($id)
+    {
+        $tweet = Tweet::find($id);
+        $tweet->delete();
+
+        return redirect()->route('timeline');
     }
 }
