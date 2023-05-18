@@ -54,3 +54,9 @@ body{
     border: 1px solid black;
     margin-right: 30px;
 }
+
+.pagination{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
